@@ -67,40 +67,33 @@ server.put("/projects/:id", checkIdExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  projects.map(element => {
-    if (element.id == id) {
-      element.title = title;
+  const projectFound = projects.find(element => element.id == id);
 
-      return res.json(element);
-    }
-  });
+  projectFound.title = title;
+
+  return res.json(projectFound);
 });
 
 // Deletar projeto via id
 server.delete("/projects/:id", checkIdExists, (req, res) => {
   const { id } = req.params;
 
-  projects.map((element, index, arr) => {
-    if (element.id == id) {
-      arr.splice(index, 1);
+  const indexFound = projects.indexOf(element => element.id == id);
 
-      return res.send();
-    }
-  });
+  projects.splice(indexFound, 1);
+
+  return res.send();
 });
 
 server.post("/projects/:id/tasks", checkIdExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  projects.find(element => element.id == id);
-  projects.map(element => {
-    if (element.id == id) {
-      element.tasks.push(title);
+  const projectFound = projects.find(element => element.id == id);
 
-      return res.json(element);
-    }
-  });
+  projectFound.tasks.push(title);
+
+  return res.json(projects);
 });
 
 server.listen(3000);
