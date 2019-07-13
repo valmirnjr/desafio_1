@@ -19,7 +19,7 @@ const addOne = (function() {
   };
 })();
 
-// Middelware global de contagem do número de rrequisições já realizadas
+// Middelware global de contagem do número de requisições já realizadas
 server.use((req, res, next) => {
   console.log(addOne());
 
@@ -74,8 +74,6 @@ server.put("/projects/:id", checkIdExists, (req, res) => {
       return res.json(element);
     }
   });
-
-  return res.json({ error: "Id not found." });
 });
 
 // Deletar projeto via id
@@ -89,14 +87,13 @@ server.delete("/projects/:id", checkIdExists, (req, res) => {
       return res.send();
     }
   });
-
-  return res.json({ error: "Id not found." });
 });
 
 server.post("/projects/:id/tasks", checkIdExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
+  projects.find(element => element.id == id);
   projects.map(element => {
     if (element.id == id) {
       element.tasks.push(title);
